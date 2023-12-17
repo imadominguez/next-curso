@@ -3,7 +3,7 @@ import Image from "next/image";
 import {
   IoBrowsersOutline,
   IoCalculatorOutline,
-  IoLogoReact,
+  IoFootballOutline,
 } from "react-icons/io5";
 
 import SidebarMenuItem from "./SidebarMenuItem";
@@ -21,13 +21,19 @@ const menuItems = [
     title: "Counter",
     subtitle: "Este es el counter",
   },
+  {
+    path: "/dashboard/pokemons",
+    icon: <IoFootballOutline size={30} />,
+    title: "Pokemons",
+    subtitle: "Generacion estatica",
+  },
 ];
 
 function Sidebar() {
   return (
     <div
       id="menu"
-      className="bg-gray-900 min-h-screen z-10 text-slate-300 w-80 left-0 h-screen "
+      className="bg-gray-900 min-h-screen z-10 text-slate-300 w-80 left-0"
     >
       {/* Logo */}
       <div id="logo" className="my-4 px-6">
