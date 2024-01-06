@@ -1,1 +1,1 @@
-export { default as CartCounter } from "./components/CartCounter";
+export { CartCounter } from "./components/CartCounter";
