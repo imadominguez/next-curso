@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { SimplePokemon } from "..";
+
 import Image from "next/image";
-import { IoHeartOutline } from "react-icons/io5";
+import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { useAppSelector } from "@/store";
+import { SimplePokemon } from "@/pokemons";
 
 interface Props {
   pokemon: SimplePokemon;
@@ -9,24 +13,28 @@ interface Props {
 
 function PokemonCard({ pokemon }: Props) {
   const { id, name } = pokemon;
+  const isFavorite = useAppSelector((state) => !!state.pokemons[id]);
+
   return (
-    <div className="mx-auto right-0 mt-2 w-60">
-      <div className="bg-white rounded overflow-hidden shadow-lg">
-        <div className="text-center flex flex-col items-center p-6 bg-gray-800 border-b">
+    <div className="right-0 mx-auto mt-2 w-60">
+      <div className="overflow-hidden rounded bg-white shadow-lg">
+        <div className="flex flex-col items-center border-b bg-gray-800 p-6 text-center">
           <Image
             width={100}
             height={100}
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`}
             alt={name}
             priority={false}
-            className="w-24 h-24 rounded-full"
+            className="h-24 w-24 rounded-full"
           />
-          <p className="pt-2 text-lg font-semibold text-gray-50 capitalize">{name}</p>
+          <p className="pt-2 text-lg font-semibold capitalize text-gray-50">
+            {name}
+          </p>
           <p className="text-sm text-gray-100">John@Doe.com</p>
           <div className="mt-5">
             <Link
               href={`pokemons/${name}`}
-              className="border rounded-full py-2 px-4 text-xs font-semibold text-gray-100"
+              className="rounded-full border px-4 py-2 text-xs font-semibold text-gray-100"
             >
               Mas informacion
             </Link>
@@ -35,16 +43,19 @@ function PokemonCard({ pokemon }: Props) {
         <div className="border-b">
           <Link
             href={`pokemon/${id}`}
-            className="px-4 py-2 flex items-center hover:bg-gray-100"
+            className="flex items-center px-4 py-2 hover:bg-gray-100"
           >
             <div className="text-red-600">
-              <IoHeartOutline />
+              {isFavorite ? <IoHeart /> : <IoHeartOutline />}
             </div>
+
             <div className="pl-3">
-              <p className="text-sm font-medium text-gray-800 leading-none">
-                No es favorito
+              <p className="text-sm font-medium leading-none text-gray-800">
+                {isFavorite ? "Favorito" : "No es favorito"}
               </p>
-              <p className="text-xs text-gray-500">View your campaigns</p>
+              <p className="text-xs text-gray-500">
+                {isFavorite ? "Sacar de favorito" : "Agregar a favorito"}
+              </p>
             </div>
           </Link>
         </div>
