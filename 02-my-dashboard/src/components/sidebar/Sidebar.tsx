@@ -38,35 +38,42 @@ const menuItems = [
 
 function Sidebar() {
   return (
-    <div id="menu" className="bg-gray-900 min-h-screen z-10 text-slate-300 w-80 left-0">
+    <div
+      id="menu"
+      className="left-0 z-10 min-h-screen w-80 bg-gray-900 text-slate-300"
+    >
       {/* Logo */}
       <div id="logo" className="my-4 px-6">
-        <h1 className="text-lg md:text-2xl font-bold text-white flex items-center">
+        <h1 className="flex items-center text-lg font-bold text-white md:text-2xl">
           <span>Dash</span>
           <span className="text-blue-500">board</span>
         </h1>
-        <p className="text-slate-500 text-sm mt-2">Controla tus acciones y actividades</p>
+        <p className="mt-2 text-sm text-slate-500">
+          Controla tus acciones y actividades
+        </p>
       </div>
 
       {/* Perfil */}
       <div id="profile" className="px-6 py-10">
         <p className="text-slate-500">Bienvenido</p>
-        <a href="#" className="inline-flex space-x-2 items-center mt-2">
+        <a href="#" className="mt-2 inline-flex items-center space-x-2">
           <span>
             <Image
               width={50}
               height={50}
-              className="rounded-full w-8 h-8"
+              className="h-8 w-8 rounded-full"
               src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c"
               alt="imagen perfil"
             />
           </span>
-          <span className="text-sm md:text-base font-bold">Imanol Dominguez</span>
+          <span className="text-sm font-bold md:text-base">
+            Imanol Dominguez
+          </span>
         </a>
       </div>
 
       {/* Navegacion */}
-      <div id="nav" className="w-full px-6">
+      <div id="nav" className="sticky top-14 w-full px-6">
         {menuItems.map((item, ind) => (
           <SidebarMenuItem key={ind} {...item} />
         ))}
