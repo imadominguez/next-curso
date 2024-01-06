@@ -4,6 +4,7 @@ import {
   IoBrowsersOutline,
   IoCalculatorOutline,
   IoFootballOutline,
+  IoHeartCircleOutline,
 } from "react-icons/io5";
 
 import SidebarMenuItem from "./SidebarMenuItem";
@@ -27,23 +28,24 @@ const menuItems = [
     title: "Pokemons",
     subtitle: "Generacion estatica",
   },
+  {
+    path: "/dashboard/favorites",
+    icon: <IoHeartCircleOutline size={30} />,
+    title: "Favoritos",
+    subtitle: "Global State",
+  },
 ];
 
 function Sidebar() {
   return (
-    <div
-      id="menu"
-      className="bg-gray-900 min-h-screen z-10 text-slate-300 w-80 left-0"
-    >
+    <div id="menu" className="bg-gray-900 min-h-screen z-10 text-slate-300 w-80 left-0">
       {/* Logo */}
       <div id="logo" className="my-4 px-6">
         <h1 className="text-lg md:text-2xl font-bold text-white flex items-center">
           <span>Dash</span>
           <span className="text-blue-500">board</span>
         </h1>
-        <p className="text-slate-500 text-sm mt-2">
-          Controla tus acciones y actividades
-        </p>
+        <p className="text-slate-500 text-sm mt-2">Controla tus acciones y actividades</p>
       </div>
 
       {/* Perfil */}
@@ -59,9 +61,7 @@ function Sidebar() {
               alt="imagen perfil"
             />
           </span>
-          <span className="text-sm md:text-base font-bold">
-            Imanol Dominguez
-          </span>
+          <span className="text-sm md:text-base font-bold">Imanol Dominguez</span>
         </a>
       </div>
 

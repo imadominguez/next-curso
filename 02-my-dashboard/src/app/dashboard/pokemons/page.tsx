@@ -18,7 +18,7 @@ async function PakemonsPage() {
   const pokemons = await getPokemons(151);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col p-5">
       <span className="text-5xl my-2">
         Listado de Pokemons <small>estatico</small>
       </span>
