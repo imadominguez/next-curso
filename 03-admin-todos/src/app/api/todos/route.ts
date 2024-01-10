@@ -1,6 +1,8 @@
 import prisma from "@/lib/primsa";
 import { NextResponse, NextRequest } from "next/server";
+import * as yup from "yup";
 
+// * GET /todos
 export async function GET(request: Request) {
   // * skip = offset
   // * take = limit
@@ -30,7 +32,20 @@ export async function GET(request: Request) {
   return NextResponse.json(todos);
 }
 
+const postSchema = yup.object({
+  description: yup.string().required(),
+  complete: yup.boolean().optional().default(false),
+});
+
+// * POST /todos
 export async function POST(request: Request) {
-  const body = await request.json();
-  return NextResponse.json(body);
+  try {
+    const body = await postSchema.validate(await request.json());
+
+    const todo = await prisma.todo.create({ data: body });
+
+    return NextResponse.json(todo);
+  } catch (error) {
+    return NextResponse.json(error, { status: 400 });
+  }
 }
