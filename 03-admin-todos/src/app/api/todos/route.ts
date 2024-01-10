@@ -12,16 +12,10 @@ export async function GET(request: Request) {
 
   // Validaciones de parametros --------------
   if (isNaN(take))
-    return NextResponse.json(
-      { message: "Take debe ser un numero" },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: "Take debe ser un numero" }, { status: 400 });
 
   if (isNaN(skip))
-    return NextResponse.json(
-      { message: "Skip debe ser un numero" },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: "Skip debe ser un numero" }, { status: 400 });
 
   // ========================================
   const todos = await prisma.todo.findMany({
@@ -43,6 +37,17 @@ export async function POST(request: Request) {
     const body = await postSchema.validate(await request.json());
 
     const todo = await prisma.todo.create({ data: body });
+
+    return NextResponse.json(todo);
+  } catch (error) {
+    return NextResponse.json(error, { status: 400 });
+  }
+}
+
+// * DELETE /todos
+export async function DELETE(request: Request) {
+  try {
+    const todo = await prisma.todo.deleteMany({ where: { complete: true } });
 
     return NextResponse.json(todo);
   } catch (error) {

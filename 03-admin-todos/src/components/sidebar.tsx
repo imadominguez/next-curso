@@ -1,7 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CiLogout } from "react-icons/ci";
+import { CiBookmarkCheck, CiLogout } from "react-icons/ci";
 import { SidebarItem } from "@/components";
+
+const menuItem = [
+  {
+    title: "Dasboard",
+    href: "/dashboard",
+    icon: <CiBookmarkCheck size={30} />,
+  },
+  {
+    title: "Rest TODOS",
+    href: "/dashboard/rest-todos",
+    icon: <CiBookmarkCheck size={30} />,
+  },
+  {
+    title: "Server Actions",
+    href: "/dasboard/server-todos",
+    icon: <CiBookmarkCheck size={30} />,
+  },
+];
 
 export function Sidebar() {
   return (
@@ -12,6 +30,7 @@ export function Sidebar() {
             <Image
               width={100}
               height={100}
+              priority
               src="https://tailus.io/sources/blocks/stats-cards/preview/images/logo.svg"
               className="w-32"
               alt="tailus logo"
@@ -23,6 +42,7 @@ export function Sidebar() {
           <Image
             width={100}
             height={100}
+            priority
             src="https://tailus.io/sources/blocks/stats-cards/preview/images/second_user.webp"
             alt=""
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
@@ -37,7 +57,9 @@ export function Sidebar() {
           {/* TODO: src/components <SidebarItem /> */}
           {/* Active className: text-white bg-gradient-to-r from-sky-600 to-cyan-400 */}
 
-          <SidebarItem />
+          {menuItem.map(({ href, icon, title }, ind: number) => (
+            <SidebarItem key={ind} href={href} icon={icon} title={title} />
+          ))}
         </ul>
       </div>
 
