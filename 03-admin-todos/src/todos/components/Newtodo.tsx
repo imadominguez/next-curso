@@ -7,9 +7,12 @@ import { useRouter } from "next/navigation";
 
 export const NewTodo = () => {
   const route = useRouter();
+
   const [description, setDescription] = useState("");
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (description.trim().length === 0) return;
 
     await todosApi.createTodo(description);
     setDescription("");
