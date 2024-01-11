@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import * as todosApi from "@/todos/helpers/todos";
+import { createTodo, deleteCompletedTodo } from "../actions/todo-actions";
 import { useRouter } from "next/navigation";
 
 export const NewTodo = () => {
@@ -14,18 +14,12 @@ export const NewTodo = () => {
     e.preventDefault();
     if (description.trim().length === 0) return;
 
-    await todosApi.createTodo(description);
+    await createTodo(description);
     setDescription("");
-    route.refresh();
-  };
-
-  const handleDeleteTodo = async () => {
-    await todosApi.deleteTodo();
-    route.refresh();
   };
 
   return (
-    <form className="flex w-full" onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="flex w-full">
       <input
         type="text"
         value={description}
@@ -44,7 +38,7 @@ export const NewTodo = () => {
       <span className="flex flex-1"></span>
 
       <button
-        onClick={handleDeleteTodo}
+        onClick={() => deleteCompletedTodo()}
         type="button"
         className="flex gap-x-3 items-center justify-center rounded ml-2 bg-red-400 p-2 text-white hover:bg-red-700 transition-all"
       >

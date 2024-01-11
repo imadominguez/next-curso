@@ -16,7 +16,7 @@ const menuItem = [
   },
   {
     title: "Server Actions",
-    href: "/dasboard/server-todos",
+    href: "/dashboard/server-todos",
     icon: <CiBookmarkCheck size={30} />,
   },
 ];
