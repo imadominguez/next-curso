@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CiBookmarkCheck, CiLogout } from "react-icons/ci";
 import { SidebarItem } from "@/components";
+import { IoCartOutline, IoCodeWorkingOutline } from "react-icons/io5";
 
 const menuItem = [
   {
@@ -18,6 +19,16 @@ const menuItem = [
     title: "Server Actions",
     href: "/dashboard/server-todos",
     icon: <CiBookmarkCheck size={30} />,
+  },
+  {
+    title: "Cookies",
+    href: "/dashboard/cookies",
+    icon: <IoCodeWorkingOutline size={30} />,
+  },
+  {
+    title: "Productos",
+    href: "/dashboard/products",
+    icon: <IoCartOutline size={30} />,
   },
 ];
 
