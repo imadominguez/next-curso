@@ -4,9 +4,14 @@ import Image from "next/image";
 import type { Product } from "@/data/products";
 import { useRouter } from "next/navigation";
 
-import { IoAddCircleOutline, IoRemove } from "react-icons/io5";
+import { IoAddCircleOutline, IoRemove, IoTrashOutline } from "react-icons/io5";
 
-import { addProductToCart, removeSingleItemFromCart } from "@/shopping-cart/actions/actions";
+import {
+  addProductToCart,
+  removeProductFromCart,
+  removeSingleItemFromCart,
+} from "@/shopping-cart/actions/actions";
+import { toast } from "sonner";
 
 interface Props {
   product: Product;
@@ -25,9 +30,14 @@ export const ItemCard = ({ product, quantity }: Props) => {
     removeSingleItemFromCart(product.id);
     router.refresh();
   }
+  function onRemoveFromCart() {
+    removeProductFromCart(product.id);
+    router.refresh();
+    toast.info(`${product.name} eliminado del carrito`);
+  }
 
   return (
-    <div className="flex items-center shadow rounded-lg w-full bg-gray-800 border-gray-100">
+    <div className="flex w-full items-center rounded-lg border-gray-100 bg-gray-800 shadow">
       {/* Product Image */}
       <div className="p-2">
         <Image
@@ -40,35 +50,44 @@ export const ItemCard = ({ product, quantity }: Props) => {
       </div>
 
       {/* Title */}
-      <div className="px-5 pb-5 w-full flex flex-col mt-2">
+      <div className="mt-2 flex w-full flex-col px-5 pb-5">
         <a href="#">
-          <h3 className="font-semibold text-xl tracking-tight text-white">
-            {product.name} - <small className="text-sm">${product.price.toFixed(2)}</small>
+          <h3 className="text-xl font-semibold tracking-tight text-white">
+            {product.name} -{" "}
+            <small className="text-sm">${product.price.toFixed(2)}</small>
           </h3>
         </a>
 
         {/* Price and Add to Cart */}
         <div className="flex flex-col items-start justify-between">
-          <span className="text-gray-900 dark:text-white">Cantidad: {quantity}</span>
+          <span className="text-gray-900 dark:text-white">
+            Cantidad: {quantity}
+          </span>
           <span className="font-bold text-white">
             Total: ${(product.price * quantity).toFixed(2)}
           </span>
         </div>
       </div>
 
-      <div className="flex p-5 items-center justify-center">
+      <div className="flex items-center justify-center p-5">
         <button
           onClick={onAddToCart}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           <IoAddCircleOutline size={25} />
         </button>
-        <span className="text-2xl text-white mx-10">{quantity}</span>
+        <span className="mx-10 text-2xl text-white">{quantity}</span>
         <button
           onClick={onRemoveItem}
-          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+          className="rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-blue-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
         >
           <IoRemove size={25} />
+        </button>
+        <button
+          onClick={onRemoveFromCart}
+          className="bg-red-70 ml-2 rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:ring-4 focus:ring-blue-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+        >
+          <IoTrashOutline size={25} />
         </button>
       </div>
     </div>

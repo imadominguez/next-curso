@@ -28,37 +28,51 @@ const getProductsInCart = (cart: { [id: string]: number }) => {
 
 export default function CartPage() {
   const cookiesStire = cookies();
-  const cart = JSON.parse(cookiesStire.get("cart")?.value || "{}") as { [id: string]: number };
+  const cart = JSON.parse(cookiesStire.get("cart")?.value || "{}") as {
+    [id: string]: number;
+  };
   const productsInCart = getProductsInCart(cart);
 
   const totaltoPay = productsInCart.reduce(
     (prev, current) => current.product.price * current.quantity + prev,
-    0
+    0,
   );
   return (
     <div className="p-2">
-      <h1 className="text-4xl font-semibold my-3">Productos en el carrito de compras</h1>
+      <h1 className="my-3 text-4xl font-semibold">
+        Productos en el carrito de compras
+      </h1>
 
       <hr className="mb-2" />
 
-      <div className="flex flex-col sm:flex-row gap-2 w-full">
-        <div className="flex flex-col gap-2 w-full sm:w-8/12">
+      <div className="flex w-full flex-col gap-2 sm:flex-row">
+        <div className="flex h-auto w-full flex-col items-center justify-center gap-2 space-y-6 rounded-xl border border-gray-200 bg-white px-6 py-8 sm:w-8/12">
           {/* Productos */}
 
-          {productsInCart.map(({ product, quantity }) => (
-            <ItemCard key={product.id} product={product} quantity={quantity} />
-          ))}
+          {productsInCart.length > 0 ? (
+            productsInCart.map(({ product, quantity }) => (
+              <ItemCard
+                key={product.id}
+                product={product}
+                quantity={quantity}
+              />
+            ))
+          ) : (
+            <span className="text-xl font-semibold text-gray-700/80">
+              No hay productos en el carrito
+            </span>
+          )}
         </div>
 
-        <div className="flex flex-col w-full sm:w-4/12">
+        <div className="flex w-full flex-col sm:w-4/12">
           <WidgetItem title="Carrito final">
-            <div className="flex justify-center gap-4 mt-2">
+            <div className="mt-2 flex justify-center gap-4">
               <h3 className="text-3xl font-bold text-gray-700">
                 ${(totaltoPay * 1.15).toFixed(2)}
               </h3>
             </div>
 
-            <span className="font-bold text-center text-gray-500">
+            <span className="text-center font-bold text-gray-500">
               Impuestos 15%: ${(totaltoPay * 0.15).toFixed(2)}
             </span>
           </WidgetItem>
