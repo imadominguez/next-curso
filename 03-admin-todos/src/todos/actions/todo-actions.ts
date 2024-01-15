@@ -4,7 +4,10 @@ import prisma from "@/lib/primsa";
 import { Todo } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export const toggleTodo = async (id: string, complete: boolean): Promise<Todo> => {
+export const toggleTodo = async (
+  id: string,
+  complete: boolean,
+): Promise<Todo> => {
   const todo = await prisma.todo.findFirst({ where: { id } });
 
   if (!todo) {
@@ -20,10 +23,10 @@ export const toggleTodo = async (id: string, complete: boolean): Promise<Todo> =
   return updateTodo;
 };
 
-export const createTodo = async (description: string) => {
+export const createTodo = async (description: string, userId: string) => {
   // :Promise<Todo | {}>
   try {
-    const todo = await prisma.todo.create({ data: { description } });
+    const todo = await prisma.todo.create({ data: { description, userId } });
     revalidatePath("/dashboard/server-todos");
 
     return todo;

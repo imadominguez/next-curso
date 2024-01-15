@@ -1,5 +1,14 @@
+"use server";
+
+import { autOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/primsa";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth";
+
+export const getUserServerSession = async () => {
+  const session = await getServerSession(autOptions);
+  return session?.user;
+};
 
 export const signInEmailPassword = async (email: string, password: string) => {
   if (!email || !password) return null;

@@ -1,3 +1,4 @@
+import { getUserServerSession } from "@/auth/actions/auth-action";
 import prisma from "@/lib/primsa";
 import { NextResponse, NextRequest } from "next/server";
 import * as yup from "yup";
@@ -12,10 +13,16 @@ export async function GET(request: Request) {
 
   // Validaciones de parametros --------------
   if (isNaN(take))
-    return NextResponse.json({ message: "Take debe ser un numero" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Take debe ser un numero" },
+      { status: 400 },
+    );
 
   if (isNaN(skip))
-    return NextResponse.json({ message: "Skip debe ser un numero" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Skip debe ser un numero" },
+      { status: 400 },
+    );
 
   // ========================================
   const todos = await prisma.todo.findMany({
@@ -33,10 +40,18 @@ const postSchema = yup.object({
 
 // * POST /todos
 export async function POST(request: Request) {
-  try {
-    const body = await postSchema.validate(await request.json());
+  const user = await getUserServerSession();
 
-    const todo = await prisma.todo.create({ data: body });
+  if (!user)
+    return NextResponse.json({ message: "No autorizado" }, { status: 401 });
+  try {
+    const { complete, description } = await postSchema.validate(
+      await request.json(),
+    );
+
+    const todo = await prisma.todo.create({
+      data: { complete, description, userId: user.id },
+    });
 
     return NextResponse.json(todo);
   } catch (error) {
@@ -46,8 +61,14 @@ export async function POST(request: Request) {
 
 // * DELETE /todos
 export async function DELETE(request: Request) {
+  const user = await getUserServerSession();
+
+  if (!user)
+    return NextResponse.json({ message: "No autorizado" }, { status: 401 });
   try {
-    const todo = await prisma.todo.deleteMany({ where: { complete: true } });
+    const todo = await prisma.todo.deleteMany({
+      where: { complete: true, userId: user.id },
+    });
 
     return NextResponse.json(todo);
   } catch (error) {

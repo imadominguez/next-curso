@@ -8,7 +8,10 @@ const sleep = (seconds: number = 0): Promise<boolean> => {
   });
 };
 
-export const updateTodo = async (id: string, complete: boolean): Promise<Todo> => {
+export const updateTodo = async (
+  id: string,
+  complete: boolean,
+): Promise<Todo> => {
   // TODO: Optimistic Updates
   // await sleep(2);
 
@@ -31,8 +34,6 @@ export const createTodo = async (description: string): Promise<Todo> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   }).then((res) => res.json());
-
-  console.log({ todo });
 
   return todo;
 };
